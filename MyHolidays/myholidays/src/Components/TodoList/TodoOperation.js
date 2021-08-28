@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import TodoForm from "./TodoForm";
 
@@ -21,51 +22,89 @@ const TodoOperation = ({ todos, completeTodo, removeTodo, updateTodo }) => {
   }
 
   return (
-    <ItemContainer>
-      {todos &&
-        todos.map((todo, index) => (
-          <Element key={index}>
-            <ElementInfo key={todo.id} onClick={() => completeTodo(todo.id)}>
-              {todo.text}
-            </ElementInfo>
-            <ElementIcons>
-              <i
-                className="fas fa-user-minus"
-                onClick={() => removeTodo(todo.id)}
-              ></i>
-              <i
-                className="fas fa-edit"
-                onClick={() => setEdit({ id: todo.id, value: todo.text })}
-              ></i>
-            </ElementIcons>
-          </Element>
-        ))}
-    </ItemContainer>
+    <>
+      <ItemContainer>
+        {todos &&
+          todos.map((todo, index) => (
+            <div
+              key={todo.id}
+              className="list-group"
+              style={{
+                width: "100%",
+                borderBottom: "2px solid white",
+                margin: "auto",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                position: "relative",
+              }}
+            >
+              <ElementInfo onClick={() => completeTodo(todo.id)}>
+                <p>{todo.text}</p>
+              </ElementInfo>
+              <ElementIcons>
+                <i
+                  className="fas fa-user-minus"
+                  onClick={() => removeTodo(todo.id)}
+                ></i>
+                <i
+                  className="fas fa-edit"
+                  onClick={() => setEdit({ id: todo.id, value: todo.text })}
+                ></i>
+              </ElementIcons>
+            </div>
+          ))}
+      </ItemContainer>
+      <Link
+        to="/"
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          padding: "10px",
+          background: "rebeccapurple",
+          color: "white",
+          borderRadius: "20px",
+          textDecoration: "none",
+        }}
+      >
+        <i
+          className="fas fa-sign-out-alt"
+          style={{
+            paddingRight: "2px",
+            color: "white",
+          }}
+        ></i>
+        Logout
+      </Link>
+    </>
   );
 };
 
 const ItemContainer = styled.div`
   margin-top: 20px;
 `;
-const Element = styled.div`
-  width: 80vw !important;
-  margin: auto;
+const ElementInfo = styled.div`
+  color: rebeccapurple;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 10px;
-  border-bottom: 2px solid #fff;
-  font-size: larger;
-`;
-const ElementInfo = styled.div`
-  width: 180vw !important;
-  color: rebeccapurple;
+  margin-top: 10px;
+  width: 80%;
 `;
 const ElementIcons = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 100px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #030303;
   i {
-    padding: 0px 20px;
     font-size: large;
     cursor: pointer;
+    display: block;
   }
   i:hover {
     color: red;

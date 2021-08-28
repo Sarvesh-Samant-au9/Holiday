@@ -17,9 +17,7 @@ function TodoForm(props) {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    if (inputValue.trim === "") {
-      return alert("Enter SOmething");
-    }
+
     props.onSubmit({
       id: uuidv4(),
       text: inputValue,

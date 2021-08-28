@@ -1,19 +1,35 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 const Login = () => {
   const [emailstate, setEmailState] = useState("");
   const [passwordState, setPasswordState] = useState("");
   const credentials = {
-    admin: "admin",
+    admin: "admin@gmail.com",
     password: "123456789",
+  };
+  const history = useHistory();
+  const [submitState, setSubmitState] = useState(false);
+  const onclickHandler = (e) => {
+    e.preventDefault();
+    setSubmitState(true);
+    setTimeout(() => {
+      setSubmitState(false);
+    }, 2000);
+    if (
+      passwordState === credentials.password &&
+      emailstate === credentials.admin
+    ) {
+      history.push("/todo");
+    }
   };
   return (
     <LoginFormContainer>
-      <LoginForm>
+      <LoginForm onSubmit={onclickHandler}>
         <h3>Login Form</h3>
         <LoginInput>
           <label htmlFor="email">
-            Email Id
+            Email or Phone
             <br />
             <input
               type="email"
@@ -21,7 +37,7 @@ const Login = () => {
               value={emailstate}
             />
             <p style={{ color: "red" }}>
-              {emailstate !== credentials.admin ? (
+              {submitState && emailstate !== credentials.admin ? (
                 <span>Enter Correct Email Address</span>
               ) : (
                 ""
@@ -36,14 +52,20 @@ const Login = () => {
               value={passwordState}
             />
             <p style={{ color: "red" }}>
-              {emailstate !== credentials.password ? (
-                <span>Enter Correct Email Address</span>
+              {submitState && passwordState !== credentials.password ? (
+                <span>Enter Correct Password</span>
               ) : (
                 ""
               )}
             </p>
           </label>
         </LoginInput>
+        <LoginButton type="submit" onSubmit={onclickHandler}>
+          Login
+        </LoginButton>
+        <p style={{ marginTop: "10px" }}>
+          Not a member? <span style={{ color: "#15a1ff" }}>Sign Up Now</span>
+        </p>
       </LoginForm>
     </LoginFormContainer>
   );
@@ -58,7 +80,6 @@ const LoginFormContainer = styled.div`
 `;
 const LoginForm = styled.form`
   width: 30%;
-  border: 2px solid red;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,8 +90,20 @@ const LoginForm = styled.form`
     font-family: sans-serif;
   }
   @media screen and (max-width: 500px) {
-    width: 80%;
+    width: 80vw !important;
   }
+  @media screen and (max-width: 768px) {
+    width: 40%;
+  }
+`;
+const LoginButton = styled.button`
+  width: 60%;
+  background: linear-gradient(to right, #22cbff 30%, #ac53ff 70%);
+  color: white;
+  padding: 10px 5px;
+  border: none;
+  outline: none;
+  border-radius: 6px;
 `;
 
 const LoginInput = styled.div`
@@ -81,14 +114,17 @@ const LoginInput = styled.div`
   align-items: center;
   flex-direction: column;
   label {
-    padding: 5px;
     display: block;
+    padding-bottom: 5px;
   }
   input {
     border: none;
     border: 2px solid black;
     padding: 5px 10px;
     border-radius: 5px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 90%;
   }
 `;
 export default Login;

@@ -13,12 +13,11 @@ const TodoListComponent = () => {
     }
     const newDataAdded = [data, ...arrayData];
     setArrayData(newDataAdded);
-    console.log(arrayData);
+    console.log(...arrayData);
   };
 
   const deleteDataToDo = (id) => {
     const removedData = [...arrayData].filter((todo) => todo.id !== id);
-
     setArrayData(removedData);
   };
   const updateDataToDo = (id, newdata) => {
@@ -106,7 +105,9 @@ const TodoListContainer = styled.div`
 `;
 
 const TodoOp = styled.div`
-  width: 100%;
   margin: 10px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export default TodoListComponent;
